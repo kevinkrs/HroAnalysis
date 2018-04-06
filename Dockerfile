@@ -10,5 +10,6 @@ RUN apt-get update && apt-get install -y  zlib1g-dev libicu-dev libpq-dev imagem
 	&& chmod +sx /usr/local/bin/composer
 
 COPY . /var/www
+RUN chown -R www-data:www-data /var/www
 
 EXPOSE 9000
