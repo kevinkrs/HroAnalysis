@@ -29,9 +29,6 @@ class CreateFeedbacksTable extends Migration
 			
 			$table->integer('import')->unsigned();
 			$table->foreign('import')->references('id')->on('imports')->onDelete('cascade');
-			
-			$table->integer('school_year');
-	
         });
     }
 
