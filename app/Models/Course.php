@@ -26,7 +26,8 @@ class Course extends Eloquent
 	public $timestamps = false;
 
 	protected $fillable = [
-		'name'
+		'name',
+		'period',
 	];
 
 	public function feedback()

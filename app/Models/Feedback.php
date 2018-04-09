@@ -32,7 +32,6 @@ class Feedback extends Eloquent
 	protected $casts = [
 		'grade' => 'int',
 		'import' => 'int',
-		'period' => 'int'
 	];
 
 	protected $dates = [
@@ -46,7 +45,6 @@ class Feedback extends Eloquent
 		'course',
 		'location',
 		'import',
-		'period'
 	];
 
 	public function course()
