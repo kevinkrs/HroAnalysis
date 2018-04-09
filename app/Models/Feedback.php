@@ -19,7 +19,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $course
  * @property string $location
  * @property int $import
- * @property int $school_year
+ * @property int $period
  * 
  *
  * @package App\Models
@@ -32,7 +32,7 @@ class Feedback extends Eloquent
 	protected $casts = [
 		'grade' => 'int',
 		'import' => 'int',
-		'school_year' => 'int'
+		'period' => 'int'
 	];
 
 	protected $dates = [
@@ -46,7 +46,7 @@ class Feedback extends Eloquent
 		'course',
 		'location',
 		'import',
-		'school_year'
+		'period'
 	];
 
 	public function course()
