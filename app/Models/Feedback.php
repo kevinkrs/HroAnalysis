@@ -45,6 +45,7 @@ class Feedback extends Eloquent
 		'course',
 		'location',
 		'import',
+		'class_code',
 	];
 
 	public function course()

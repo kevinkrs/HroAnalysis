@@ -20,7 +20,7 @@ class CreateFeedbacksTable extends Migration
 			$table->string('feedback')->nullable();
 			$table->integer('grade');
 			$table->dateTime('timestamp_received_date');
-			
+			$table->string('class_code');
 			$table->string('course');
             $table->foreign('course')->references('course_code')->on('courses')->onDelete('cascade');
 			
