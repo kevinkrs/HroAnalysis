@@ -14,6 +14,8 @@ class ImportController extends Controller
         print_r($csv);
         echo '</pre>';
         die();
+
+//        return view('import.index');
     }
 
 
