@@ -18,6 +18,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property \Carbon\Carbon $timestamp_received_date
  * @property string $course
  * @property string $location
+ * @property string $class_code
  * @property int $import
  * @property int $period
  * 

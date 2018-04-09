@@ -17,8 +17,8 @@ class CreateFeedbacksTable extends Migration
 		   
         Schema::create('feedbacks', function (Blueprint $table) {
 			$table->increments('id');
-			$table->string('feedback')->nullable();
-			$table->integer('grade');
+			$table->text('feedback')->nullable();
+			$table->integer('grade')->nullable();
 			$table->dateTime('timestamp_received_date');
 			$table->string('class_code');
 			$table->string('course');
