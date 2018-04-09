@@ -13,6 +13,8 @@
 
 Route::get('/', 'HomeController@index');
 
+Route::get('/import', 'ImportController@index');
+
 //Route::get('/', function () {
 //    return view('welcome');
 //});
