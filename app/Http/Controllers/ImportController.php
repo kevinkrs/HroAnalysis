@@ -10,59 +10,28 @@ use Illuminate\Http\Request;
 
 class ImportController extends Controller
 {
-    public function Index()
+    public function getIndex()
     {
-        //ini_set("memory_limit","7G");
-//        DB::connection()->disableQueryLog();
+        return view('import.index');
+    }
 
 
+    public function postIndex(Request $request)
+    {
+        $csvFile = $request->all()['file'];
 
 
-        $csv = $this->csvToArray('data.csv');
+        $csv = $this->csvToArray($csvFile);
+
 
         $import = new Import();
         $import->save();
 
-
-//
-//        $course = new Course();
-//        $course->course_code = 'CCOCKB10R3(vakcode)';
-//        $course->name = 'Brandmanagement(vaknaam)';
-//        $course->period = '16/17-03(period)';
-//        $course->save();
-
-//        $location = new Location();
-//        $location->location_code = 'WH';
-//        $location->name = 'WH(location)';
-//        $location->save();
-
-//        \Debugbar::info($csv);
-
-
-//        $ArrCourses = [
-//
-//        ];
-//
-
-        foreach($csv as $data) {
-
-//            DB::disableQueryLog();
-
-
-//            array_push($ArrCourses, $data['vakcode'] => $data['vaknaam']);
-
-
-
-            echo 'test';
-
-
-//            $dbcourse = Course::where('course_code')->first($data['vakcode']);
-
-//            $dbcourse = Course::where('course_code', $data['vakcode'])->first();
+        foreach ($csv as $data) {
 
             $course = new Course();
 
-            if(Course::where('course_code', '=', $data['vakcode'])->first() == null) {
+            if (Course::where('course_code', '=', $data['vakcode'])->first() == null) {
 
 
                 $course->course_code = $data['vakcode'];
@@ -74,7 +43,7 @@ class ImportController extends Controller
 
             $location = new Location();
 
-            if(Location::where('location_code', '=', $data['location'])->first() == null) {
+            if (Location::where('location_code', '=', $data['location'])->first() == null) {
 
                 $location->location_code = $data['location'];
                 $location->name = $data['location'];
@@ -85,47 +54,22 @@ class ImportController extends Controller
             $feedback = new Feedback();
             $feedback->feedback = $data['comments'];
 
-           if($data['rapportcijfer'] == '') {
+            if ($data['rapportcijfer'] == '') {
 
-               $feedback->grade = '0';
-           } else {
-               $feedback->grade = $data['rapportcijfer'];
-           }
+                $feedback->grade = '0';
+            } else {
+                $feedback->grade = $data['rapportcijfer'];
+            }
             $feedback->timestamp_received_date = new \DateTime(explode(" at ", $data['timestamp'])[0]);
             $feedback->class_code = $data['last_name'];
             $feedback->course = $data['vakcode'];
             $feedback->location = $data['location'];
             $feedback->import = $import->id;
             $feedback->save();
-
-
-//            echo $dbcourse->course_code;
-//
-//
-//
-//            $course = new Course();
-//            $course->course_code = $data['vakcode'];
-//            $course->name = $data['vaknaam'];
-//            $course->period = '16/17-03(period)';
-//            $course->save();
-//
-//            print_r($data['comments']);
-
         }
-
-//        $ArrCourses = array_unique($ArrCourses);
-
-
-//        vakcode => vaknaam
-
-        echo '<pre>';
-//        print_r($ArrCourses);
-        echo '</pre>';
-
 
         return view('import.index');
     }
-
 
 
     function csvToArray($filename = '', $delimiter = ';')

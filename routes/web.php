@@ -13,7 +13,8 @@
 
 Route::get('/', 'HomeController@index');
 
-Route::get('/import', 'ImportController@index');
+Route::get('/import', 'ImportController@getIndex');
+Route::post('/import', 'ImportController@postIndex');
 
 //For Course
 Route::get('/course', 'CourseController@index');
