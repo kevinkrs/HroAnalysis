@@ -1,57 +1,56 @@
 @extends('layouts.master')
 
 @section('content')
-    <table class="table">
-        <thead>
-        <tr>
-            <th scope="col">Naam</th>
-            <th scope="col">Vakcode</th>
-            <th scope="col">Periode</th>
-            <th scope="col">Opties</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach($courses as $course)
-            <tr>
-                <th scope="row">{{$course->name}}</th>
-                <th>{{$course->course_code}}</th>
-                <th>{{$course->period}}</th>
-                <th><a href="courses/{{$course->course_code}}" >Open</a></th>
-            </tr>
 
-        @endforeach
-        </tbody>
-    </table>
-    {{$courses->links()}}
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Dashboard</h1>
+            <h1 class="page-header">{{$course["name"]}}</h1>
+        </div>
+        <div style="width:75%;">
+            {!! $chartjs->render() !!}
         </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
     <div class="row">
-        <div class="col-lg-3 col-md-6">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <div class="row">
-                        <div class="col-xs-3">
-                            <i class="fa fa-comments fa-5x"></i>
-                        </div>
-                        <div class="col-xs-9 text-right">
-                            <div class="huge">26</div>
-                            <div>New Comments!</div>
-                        </div>
-                    </div>
-                </div>
-                <a href="#">
-                    <div class="panel-footer">
-                        <span class="pull-left">View Details</span>
-                        <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                        <div class="clearfix"></div>
-                    </div>
-                </a>
-            </div>
+        <div class="col-lg-12 col-md-12">
+            <table class="table">
+                Beste Feedback
+                <thead>
+                <tr>
+                    <th scope="col">Feedback</th>
+                    <th scope="col">Cijfer</th>
+                    <th scope="col">Opties</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($feedbackbest as $feedback)
+                    <tr>
+                        <th scope="row">{{$feedback["feedback"]}}</th>
+                        <th>{{$feedback["grade"]}}</th>
+                        <th><a href="/feedback/destroy/{{$feedback["id"]}}/{{$course->course_code}}/" >Verwijder</a></th>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+
+            <table class="table">
+                Slechste Feedback
+                <thead>
+                <tr>
+                    <th scope="col">Feedback</th>
+                    <th scope="col">Cijfer</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach($feedbackworst as $feedback)
+                    <tr>
+                        <th scope="row">{{$feedback["feedback"]}}</th>
+                        <th>{{$feedback["grade"]}}</th>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
         </div>
         <div class="col-lg-3 col-md-6">
             <div class="panel panel-green">

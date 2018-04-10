@@ -15,6 +15,12 @@ Route::get('/', 'HomeController@index');
 
 Route::get('/import', 'ImportController@index');
 
+//For Course
+Route::get('/course', 'CourseController@index');
+Route::get('/course/{course_code}', 'CourseController@show');
+Route::get('/course/destroy/{course_code}', 'CourseController@destroy');
+//For feedback
+Route::get('/feedback/destroy/{id}/{redirect}', 'FeedbackController@destroy');
 //Route::get('/', function () {
 //    return view('welcome');
 //});
