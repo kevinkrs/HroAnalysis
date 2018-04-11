@@ -69,6 +69,7 @@
                         <tr>
                             <th scope="col">Feedback</th>
                             <th scope="col">Cijfer</th>
+                            <th scope="col">Import</th>
                             <th scope="col">Opties</th>
                         </tr>
                         </thead>
@@ -77,6 +78,7 @@
                             <tr>
                                 <th scope="row">{{$feedback["feedback"]}}</th>
                                 <th>{{$feedback["grade"]}}</th>
+                                <th>{{$feedback["import"]}}</th>
                                 <th><a href="/feedback/destroy/{{$feedback["id"]}}/{{$course->course_code}}/">Verwijder</a></th>
                             </tr>
                         @endforeach

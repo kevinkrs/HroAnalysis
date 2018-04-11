@@ -85,6 +85,12 @@
                     <li>
                         <a href="{{ url('/course') }}"><i class="fa fa-book fa-fw"></i> Courses</a>
                     </li>
+                    <li>
+                        <a href="{{ url('/import') }}"><i class="fa fa-book fa-fw"></i> Import</a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/import/revert') }}"><i class="fa fa-book fa-fw"></i> Rollback(import verwijderen)</a>
+                    </li>
                 </ul>
             </div>
             <!-- /.sidebar-collapse -->

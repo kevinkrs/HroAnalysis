@@ -8,6 +8,7 @@ use App\Models\Import;
 use App\Models\Location;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class ImportController extends Controller
 {
@@ -35,11 +36,17 @@ class ImportController extends Controller
     {
         $csvFile = $request->all()['file'];
 
+        $hash = base64_encode(file_get_contents($csvFile));
+
+        $hashDB = Import::where('hash', '=', $hash)->get();
+
+        if(count($hashDB) > 0)
+            return view('import.index');
 
         $csv = $this->csvToArray($csvFile);
-
-
+        
         $import = new Import();
+        $import->hash = $hash;
         $import->save();
 
         foreach ($csv as $data) {

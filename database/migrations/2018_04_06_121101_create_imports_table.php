@@ -15,6 +15,7 @@ class CreateImportsTable extends Migration
     {
         Schema::create('imports', function (Blueprint $table) {
 			$table->increments('id');
+            $table->longText('hash');
             $table->timestamps();
         });
     }
