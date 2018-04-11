@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="index.html">HRO Analysis</a>
+            <a class="navbar-brand" href="{{ url('/logout') }}">HRO Analysis</a>
         </div>
         <!-- /.navbar-header -->
 
@@ -60,13 +60,15 @@
                     <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
                 </a>
                 <ul class="dropdown-menu dropdown-user">
-                    <li><a href="#"><i class="fa fa-user fa-fw"></i> User Profile</a>
-                    </li>
-                    <li><a href="#"><i class="fa fa-gear fa-fw"></i> Settings</a>
-                    </li>
-                    <li class="divider"></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
-                    </li>
+                    @if(Auth::check())
+                        <li><a href="{{ url('/logout') }}"><i class="fa fa-sign-out fa-fw"></i> logout </a>
+                        </li>
+                    @else
+                        <li><a href="{{ url('/login') }}"><i class="fa fa-sign-in fa-fw"></i> login</a>
+                        </li>
+                        <li><a href="{{ url('/register') }}"><i class="fa fa-user-plus fa-fw"></i> register</a>
+                        </li>
+                    @endif
                 </ul>
                 <!-- /.dropdown-user -->
             </li>
@@ -78,10 +80,10 @@
             <div class="sidebar-nav navbar-collapse">
                 <ul class="nav" id="side-menu">
                     <li>
-                        <a href="index.html"><i class="fa fa-home fa-fw"></i> Home</a>
+                        <a href="{{ url('/') }}"><i class="fa fa-home fa-fw"></i> Home</a>
                     </li>
                     <li>
-                        <a href="tables.html"><i class="fa fa-book fa-fw"></i> Courses</a>
+                        <a href="{{ url('/course') }}"><i class="fa fa-book fa-fw"></i> Courses</a>
                     </li>
                 </ul>
             </div>

@@ -11,7 +11,9 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+//Route::get('/', 'HomeController@index');
+
+Auth::routes();
 
 Route::get('/import', 'ImportController@getIndex');
 Route::post('/import', 'ImportController@postIndex');
@@ -25,3 +27,7 @@ Route::get('/feedback/destroy/{id}/{redirect}', 'FeedbackController@destroy');
 //Route::get('/', function () {
 //    return view('welcome');
 //});
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+
+
+Route::get('/', 'HomeController@index')->name('home');
