@@ -14,7 +14,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * 
  * @property string $course_code
  * @property string $name
- * @property string period
  * 
  * @property \Illuminate\Database\Eloquent\Collection $feedback
  *
@@ -28,7 +27,6 @@ class Course extends Eloquent
 
 	protected $fillable = [
 		'name',
-		'period',
 	];
 
 	public function feedback()

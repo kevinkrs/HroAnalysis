@@ -5,8 +5,6 @@
         <div class="col-lg-12">
             <h1 class="page-header">Vakken</h1>
         </div>
-        <div style="width:75%;">
-        </div>
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
@@ -27,7 +25,6 @@
                         <tr>
                             <th scope="col">Naam</th>
                             <th scope="col">Vakcode</th>
-                            <th scope="col">Periode</th>
                             <th scope="col">Opties</th>
                         </tr>
                         </thead>
@@ -36,7 +33,6 @@
                             <tr>
                                 <th scope="row">{{$course->name}}</th>
                                 <th>{{$course->course_code}}</th>
-                                <th>{{$course->period}}</th>
                                 <th><a href="/course/{{$course->course_code}}" >Open</a> <a href="/course/destroy/{{$course->course_code}}" >Verwijder</a></th>
                             </tr>
 

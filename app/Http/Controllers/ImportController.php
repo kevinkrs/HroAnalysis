@@ -36,7 +36,7 @@ class ImportController extends Controller
 
                 $course->course_code = $data['vakcode'];
                 $course->name = $data['vaknaam'];
-                $course->period = '16/17-03(period)';
+
                 $course->save();
             }
 
@@ -64,6 +64,7 @@ class ImportController extends Controller
             $feedback->class_code = $data['last_name'];
             $feedback->course = $data['vakcode'];
             $feedback->location = $data['location'];
+            $feedback->period = $data['period'];
             $feedback->import = $import->id;
             $feedback->save();
         }

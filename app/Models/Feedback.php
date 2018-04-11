@@ -20,7 +20,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string $location
  * @property string $class_code
  * @property int $import
- * @property int $period
+ * @property string $period
+ *
  * 
  *
  * @package App\Models
@@ -47,6 +48,7 @@ class Feedback extends Eloquent
 		'location',
 		'import',
 		'class_code',
+        'period'
 	];
 
 	public function course()
