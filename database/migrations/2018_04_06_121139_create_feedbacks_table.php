@@ -22,6 +22,8 @@ class CreateFeedbacksTable extends Migration
 			$table->dateTime('timestamp_received_date');
 			$table->string('class_code');
 			$table->string('course');
+            $table->string('period');
+
             $table->foreign('course')->references('course_code')->on('courses')->onDelete('cascade');
 			
 			$table->string('location');
