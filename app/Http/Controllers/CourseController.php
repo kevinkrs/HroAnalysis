@@ -68,8 +68,20 @@ class CourseController extends Controller
             ->select('grade', DB::raw('count(*) as amount'))
             ->where('grade', '!=', '0')
             ->where('course', '=', $course_code)
+            ->orderBy('grade')
             ->groupBy('grade')
             ->get();
+
+
+        $gradesAVG = DB::table('feedbacks')
+            ->select('period', DB::raw('avg(grade) as average'))
+            ->where('grade', '!=', '0')
+            ->where('course', '=', $course_code)
+            ->orderBy('period')
+            ->groupBy( 'period')
+            ->get();
+
+
 
         $gradeArray = array();
         $gradeAmounts = array();
@@ -78,15 +90,27 @@ class CourseController extends Controller
             array_push($gradeAmounts, $grade->amount);
         }
 
+        $gradeArrayAVG = array();
+        $gradeAmountsAVG = array();
+        foreach ($gradesAVG as $grade) {
+            array_push($gradeArrayAVG, $grade->period);
+            array_push($gradeAmountsAVG, round($grade->average,2 ));
+        }
+
+
+
         $average = round($this->averageGrade($grades),1);
 
-        $chartjs = $this->generateBarChart($gradeArray,$gradeAmounts);
+        $chartjs = $this->generateChart($gradeArray,$gradeAmounts,"grades", "bar");
+
+        $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "line");
 
         return view('courses.show.index',
             [   'course' => $course,
                 'feedbackbest' => $feedbackBest,
                 'feedbackworst' => $feedbackWorst,
                 'chartjs' => $chartjs,
+                'chartjsAVG' => $chartjsAVG,
                 'average' => $average
             ]);
     }
@@ -107,13 +131,13 @@ class CourseController extends Controller
             ->where('grade', '>', '0')
             ->orderBy('grade', $order)
             ->paginate(10);
-
       return $feedback;
     }
-    function generateBarChart($labels, $data){
+
+    function generateChart($labels, $data, $name, $type){
         $chartjs = app()->chartjs
-            ->name('barChartTest')
-            ->type('bar')
+            ->name(str_random(20))
+            ->type($type)
             ->size(['width' => 400, 'height' => 200])
             ->labels($labels)
             ->datasets([
