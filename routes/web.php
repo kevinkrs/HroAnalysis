@@ -22,6 +22,11 @@ Route::post('/import', 'ImportController@postIndex');
 Route::get('/course', 'CourseController@index');
 Route::get('/course/{course_code}', 'CourseController@show');
 Route::get('/course/destroy/{course_code}', 'CourseController@destroy');
+//
+Route::get('/import/destroy/{course_code}', 'ImportController@destroy');
+Route::get('/import/revert', 'ImportController@revert');
+
+//
 //For feedback
 Route::get('/feedback/destroy/{id}/{redirect}', 'FeedbackController@destroy');
 //Route::get('/', function () {

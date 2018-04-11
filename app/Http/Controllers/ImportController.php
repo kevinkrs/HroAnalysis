@@ -7,12 +7,27 @@ use App\Models\Feedback;
 use App\Models\Import;
 use App\Models\Location;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ImportController extends Controller
 {
     public function getIndex()
     {
         return view('import.index');
+    }
+
+    public function revert()
+    {
+        //$courses=Course::orderBy('period','desc')->get();
+        $imports = DB::table('imports')->paginate(15);
+        return view('import.revert.index', compact('imports'));
+    }
+
+
+    public function destroy($feedback)
+    {
+        Import::destroy($feedback);
+        return redirect('/import/revert');
     }
 
 

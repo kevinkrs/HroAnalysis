@@ -99,11 +99,15 @@ class CourseController extends Controller
 
 
 
-        $average = round($this->averageGrade($grades),1);
+
 
         $chartjs = $this->generateChart($gradeArray,$gradeAmounts,"grades", "bar");
+        if(count($gradeArrayAVG) >= 2)
+            $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "line");
+        else
+            $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "bar");
 
-        $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "line");
+        $average = round($this->averageGrade($grades),1);
 
         return view('courses.show.index',
             [   'course' => $course,
@@ -122,7 +126,10 @@ class CourseController extends Controller
             $totalAmount += $grade->amount;
             $totalValue += $grade->grade * $grade->amount;
         }
-        return $totalValue / $totalAmount;
+        if($totalAmount != 0 && $totalValue != 0)
+            return $totalValue / $totalAmount;
+        else
+            return 0;
     }
 
     function getFeedback($course_code, $order){
@@ -136,9 +143,8 @@ class CourseController extends Controller
 
     function generateChart($labels, $data, $name, $type){
         $chartjs = app()->chartjs
-            ->name(str_random(20))
+            ->name($name)
             ->type($type)
-            ->size(['width' => 400, 'height' => 200])
             ->labels($labels)
             ->datasets([
                 ["label" => "Cijfers",
