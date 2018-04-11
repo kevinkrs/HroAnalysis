@@ -51,17 +51,8 @@ class CourseController extends Controller
     public function show($course_code)
     {
         $course = Course::find($course_code);
-        $feedbackBest = Feedback::where('course', $course_code)
-            ->where('feedback', 'NOT lIKE', '%IMAGE%')
-            ->orderBy('grade', 'desc')
-            ->take(10)
-            ->get();
-        $feedbackWorst = Feedback::where('course', $course_code)
-            ->where('feedback', 'NOT lIKE', '%IMAGE%')
-            ->where('grade', '<', '2')
-            ->orderBy('grade', 'asc')
-            ->take(10)
-            ->get();
+        $feedbackBest = $this->getFeedback($course_code, 'desc');
+        $feedbackWorst = $this->getFeedback($course_code, 'asc');
 
         $grades = DB::table('feedbacks')
             ->select('grade', DB::raw('count(*) as amount'))
@@ -70,21 +61,54 @@ class CourseController extends Controller
             ->groupBy('grade')
             ->get();
 
-        $gradeList = array();
+        $gradeArray = array();
         $gradeAmounts = array();
         foreach ($grades as $grade) {
-            array_push($gradeList, $grade->grade);
+            array_push($gradeArray, $grade->grade);
             array_push($gradeAmounts, $grade->amount);
         }
 
+        $average = round($this->averageGrade($grades),1);
+
+        $chartjs = $this->generateBarChart($gradeArray,$gradeAmounts);
+
+        return view('courses.show.index',
+            [   'course' => $course,
+                'feedbackbest' => $feedbackBest,
+                'feedbackworst' => $feedbackWorst,
+                'chartjs' => $chartjs,
+                'average' => $average
+            ]);
+    }
+
+    function averageGrade($grades){
+        $totalAmount = 0;
+        $totalValue = 0;
+        foreach($grades as $grade){
+            $totalAmount += $grade->amount;
+            $totalValue += $grade->grade * $grade->amount;
+        }
+        return $totalValue / $totalAmount;
+    }
+
+    function getFeedback($course_code, $order){
+      $feedback = Feedback::where('course', $course_code)
+            ->where('feedback', 'NOT lIKE', '%IMAGE%')
+            ->where('grade', '>', '0')
+            ->orderBy('grade', $order)
+            ->paginate(10);
+
+      return $feedback;
+    }
+    function generateBarChart($labels, $data){
         $chartjs = app()->chartjs
             ->name('barChartTest')
             ->type('bar')
             ->size(['width' => 400, 'height' => 200])
-            ->labels($gradeList)
+            ->labels($labels)
             ->datasets([
                 ["label" => "Cijfers",
-                    'data' => $gradeAmounts,
+                    'data' => $data,
                 ]])
             ->options([
                 'legend' => [
@@ -92,38 +116,9 @@ class CourseController extends Controller
                 ],
             ]);
 
-        return view('courses.show.index', ['course' => $course, 'feedbackbest' => $feedbackBest, 'feedbackworst' => $feedbackWorst, 'chartjs' => $chartjs]);
+        return $chartjs;
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($course_code)
     {
         Course::destroy($course_code);
