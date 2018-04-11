@@ -10,7 +10,7 @@
             <form method="post">
 
                 @csrf
-
+                <h1>{{ $message }}</h1>
                 <div class="form-group">
                     <label>File input</label>
                     <input type="file" name="file">

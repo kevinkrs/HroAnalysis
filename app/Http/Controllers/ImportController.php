@@ -14,7 +14,7 @@ class ImportController extends Controller
 {
     public function getIndex()
     {
-        return view('import.index');
+        return view('import.index',  ['message' => " "]);
     }
 
     public function revert()
@@ -41,10 +41,10 @@ class ImportController extends Controller
         $hashDB = Import::where('hash', '=', $hash)->get();
 
         if(count($hashDB) > 0)
-            return view('import.index');
+            return view('import.index',  ['message' => "Upload bestaat al!"]);
 
         $csv = $this->csvToArray($csvFile);
-        
+
         $import = new Import();
         $import->hash = $hash;
         $import->save();
@@ -91,7 +91,7 @@ class ImportController extends Controller
             $feedback->save();
         }
 
-        return view('import.index');
+        return view('import.index', ['message' => "Upload klaar"]);
     }
 
 
