@@ -11,7 +11,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Feedback
- * 
+ *
  * @property int $id
  * @property string $feedback
  * @property int $grade
@@ -22,47 +22,47 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $import
  * @property string $period
  *
- * 
+ *
  *
  * @package App\Models
  */
 class Feedback extends Eloquent
 {
-	protected $table = 'feedbacks';
-	public $timestamps = false;
+    protected $table = 'feedbacks';
+    public $timestamps = false;
 
-	protected $casts = [
-		'grade' => 'int',
-		'import' => 'int',
-	];
+    protected $casts = [
+        'grade' => 'int',
+        'import' => 'int',
+    ];
 
-	protected $dates = [
-		'timestamp_received_date'
-	];
+    protected $dates = [
+        'timestamp_received_date'
+    ];
 
-	protected $fillable = [
-		'feedback',
-		'grade',
-		'timestamp_received_date',
-		'course',
-		'location',
-		'import',
-		'class_code',
+    protected $fillable = [
+        'feedback',
+        'grade',
+        'timestamp_received_date',
+        'course',
+        'location',
+        'import',
+        'class_code',
         'period'
-	];
+    ];
 
-	public function course()
-	{
-		return $this->belongsTo(\App\Models\Course::class, 'course');
-	}
+    public function course()
+    {
+        return $this->belongsTo(\App\Models\Course::class, 'course');
+    }
 
-	public function import()
-	{
-		return $this->belongsTo(\App\Models\Import::class, 'import');
-	}
+    public function import()
+    {
+        return $this->belongsTo(\App\Models\Import::class, 'import');
+    }
 
-	public function location()
-	{
-		return $this->belongsTo(\App\Models\Location::class, 'location');
-	}
+    public function location()
+    {
+        return $this->belongsTo(\App\Models\Location::class, 'location');
+    }
 }

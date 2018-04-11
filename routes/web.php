@@ -35,4 +35,4 @@ Route::get('/feedback/destroy/{id}/{redirect}', 'FeedbackController@destroy');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
 
 
-Route::get('/', 'HomeController@index')->name('home');
+Route::get('/', 'CourseController@index');

@@ -78,9 +78,8 @@ class CourseController extends Controller
             ->where('grade', '!=', '0')
             ->where('course', '=', $course_code)
             ->orderBy('period')
-            ->groupBy( 'period')
+            ->groupBy('period')
             ->get();
-
 
 
         $gradeArray = array();
@@ -94,23 +93,20 @@ class CourseController extends Controller
         $gradeAmountsAVG = array();
         foreach ($gradesAVG as $grade) {
             array_push($gradeArrayAVG, $grade->period);
-            array_push($gradeAmountsAVG, round($grade->average,2 ));
+            array_push($gradeAmountsAVG, round($grade->average, 2));
         }
 
 
-
-
-
-        $chartjs = $this->generateChart($gradeArray,$gradeAmounts,"grades", "bar");
-        if(count($gradeArrayAVG) >= 2)
-            $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "line");
+        $chartjs = $this->generateChart($gradeArray, $gradeAmounts, "grades", "bar");
+        if (count($gradeArrayAVG) >= 2)
+            $chartjsAVG = $this->generateChart($gradeArrayAVG, $gradeAmountsAVG, "gradeavg", "line");
         else
-            $chartjsAVG = $this->generateChart($gradeArrayAVG,$gradeAmountsAVG ,"gradeavg", "bar");
+            $chartjsAVG = $this->generateChart($gradeArrayAVG, $gradeAmountsAVG, "gradeavg", "bar");
 
-        $average = round($this->averageGrade($grades),1);
+        $average = round($this->averageGrade($grades), 1);
 
         return view('courses.show.index',
-            [   'course' => $course,
+            ['course' => $course,
                 'feedbackbest' => $feedbackBest,
                 'feedbackworst' => $feedbackWorst,
                 'chartjs' => $chartjs,
@@ -119,29 +115,32 @@ class CourseController extends Controller
             ]);
     }
 
-    function averageGrade($grades){
+    function averageGrade($grades)
+    {
         $totalAmount = 0;
         $totalValue = 0;
-        foreach($grades as $grade){
+        foreach ($grades as $grade) {
             $totalAmount += $grade->amount;
             $totalValue += $grade->grade * $grade->amount;
         }
-        if($totalAmount != 0 && $totalValue != 0)
+        if ($totalAmount != 0 && $totalValue != 0)
             return $totalValue / $totalAmount;
         else
             return 0;
     }
 
-    function getFeedback($course_code, $order){
-      $feedback = Feedback::where('course', $course_code)
+    function getFeedback($course_code, $order)
+    {
+        $feedback = Feedback::where('course', $course_code)
             ->where('feedback', 'NOT lIKE', '%IMAGE%')
             ->where('grade', '>', '0')
             ->orderBy('grade', $order)
             ->paginate(10);
-      return $feedback;
+        return $feedback;
     }
 
-    function generateChart($labels, $data, $name, $type){
+    function generateChart($labels, $data, $name, $type)
+    {
         $chartjs = app()->chartjs
             ->name($name)
             ->type($type)

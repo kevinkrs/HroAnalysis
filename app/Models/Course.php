@@ -11,26 +11,26 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class Course
- * 
+ *
  * @property string $course_code
  * @property string $name
- * 
+ *
  * @property \Illuminate\Database\Eloquent\Collection $feedback
  *
  * @package App\Models
  */
 class Course extends Eloquent
 {
-	protected $primaryKey = 'course_code';
-	public $incrementing = false;
-	public $timestamps = false;
+    protected $primaryKey = 'course_code';
+    public $incrementing = false;
+    public $timestamps = false;
 
-	protected $fillable = [
-		'name',
-	];
+    protected $fillable = [
+        'name',
+    ];
 
-	public function feedback()
-	{
-		return $this->hasMany(\App\Models\Feedback::class, 'course');
-	}
+    public function feedback()
+    {
+        return $this->hasMany(\App\Models\Feedback::class, 'course');
+    }
 }

@@ -14,7 +14,7 @@ class ImportController extends Controller
 {
     public function getIndex()
     {
-        return view('import.index',  ['message' => " "]);
+        return view('import.index', ['message' => " "]);
     }
 
     public function revert()
@@ -35,15 +35,21 @@ class ImportController extends Controller
     public function postIndex(Request $request)
     {
         $csvFile = $request->all()['file'];
-
-        $hash = base64_encode(file_get_contents($csvFile));
-
+        try {
+            $hash = base64_encode(file_get_contents($csvFile));
+        } catch (\Exception $e) {
+            return view('import.index', ['message' => "Kies een bestand"]);
+        }
         $hashDB = Import::where('hash', '=', $hash)->get();
 
-        if(count($hashDB) > 0)
-            return view('import.index',  ['message' => "Upload bestaat al!"]);
+        if (count($hashDB) > 0)
+            return view('import.index', ['message' => "Upload bestaat al!"]);
 
         $csv = $this->csvToArray($csvFile);
+
+        if (count($csv) == 0) {
+            return view('import.index', ['message' => "Kies een geldig CSV bestand"]);
+        }
 
         $import = new Import();
         $import->hash = $hash;
@@ -102,10 +108,8 @@ class ImportController extends Controller
 
         $header = null;
         $data = array();
-        if (($handle = fopen($filename, 'r')) !== false)
-        {
-            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false)
-            {
+        if (($handle = fopen($filename, 'r')) !== false) {
+            while (($row = fgetcsv($handle, 1000, $delimiter)) !== false) {
                 if (!$header)
                     $header = $row;
                 else
